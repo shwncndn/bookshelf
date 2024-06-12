@@ -1,0 +1,43 @@
+<.header>
+  Listing Songbooks
+  <:actions>
+    <.link patch={~p"/songbooks/new"}>
+      <.button>New Songbook</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="songbooks"
+  rows={@streams.songbooks}
+  row_click={fn {_id, songbook} -> JS.navigate(~p"/songbooks/#{songbook}") end}
+>
+  <:col :let={{_id, songbook}} label="Title"><%= songbook.title %></:col>
+  <:col :let={{_id, songbook}} label="Artist"><%= songbook.artist %></:col>
+  <:col :let={{_id, songbook}} label="Published"><%= songbook.published %></:col>
+  <:action :let={{_id, songbook}}>
+    <div class="sr-only">
+      <.link navigate={~p"/songbooks/#{songbook}"}>Show</.link>
+    </div>
+    <.link patch={~p"/songbooks/#{songbook}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, songbook}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: songbook.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="songbook-modal" show on_cancel={JS.patch(~p"/songbooks")}>
+  <.live_component
+    module={BookshelfWeb.SongbookLive.FormComponent}
+    id={@songbook.id || :new}
+    title={@page_title}
+    action={@live_action}
+    songbook={@songbook}
+    patch={~p"/songbooks"}
+  />
+</.modal>

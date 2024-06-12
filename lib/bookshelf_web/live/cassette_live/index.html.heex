@@ -1,0 +1,43 @@
+<.header>
+  Listing Cassettes
+  <:actions>
+    <.link patch={~p"/cassettes/new"}>
+      <.button>New Cassette</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="cassettes"
+  rows={@streams.cassettes}
+  row_click={fn {_id, cassette} -> JS.navigate(~p"/cassettes/#{cassette}") end}
+>
+  <:col :let={{_id, cassette}} label="Title"><%= cassette.title %></:col>
+  <:col :let={{_id, cassette}} label="Artist"><%= cassette.artist %></:col>
+  <:col :let={{_id, cassette}} label="Released"><%= cassette.released %></:col>
+  <:action :let={{_id, cassette}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cassettes/#{cassette}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cassettes/#{cassette}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, cassette}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: cassette.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="cassette-modal" show on_cancel={JS.patch(~p"/cassettes")}>
+  <.live_component
+    module={BookshelfWeb.CassetteLive.FormComponent}
+    id={@cassette.id || :new}
+    title={@page_title}
+    action={@live_action}
+    cassette={@cassette}
+    patch={~p"/cassettes"}
+  />
+</.modal>

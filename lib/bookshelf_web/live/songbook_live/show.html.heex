@@ -1,0 +1,28 @@
+<.header>
+  Songbook <%= @songbook.id %>
+  <:subtitle>This is a songbook record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/songbooks/#{@songbook}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit songbook</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @songbook.title %></:item>
+  <:item title="Artist"><%= @songbook.artist %></:item>
+  <:item title="Published"><%= @songbook.published %></:item>
+</.list>
+
+<.back navigate={~p"/songbooks"}>Back to songbooks</.back>
+
+<.modal :if={@live_action == :edit} id="songbook-modal" show on_cancel={JS.patch(~p"/songbooks/#{@songbook}")}>
+  <.live_component
+    module={BookshelfWeb.SongbookLive.FormComponent}
+    id={@songbook.id}
+    title={@page_title}
+    action={@live_action}
+    songbook={@songbook}
+    patch={~p"/songbooks/#{@songbook}"}
+  />
+</.modal>

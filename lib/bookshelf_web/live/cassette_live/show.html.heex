@@ -1,0 +1,28 @@
+<.header>
+  Cassette <%= @cassette.id %>
+  <:subtitle>This is a cassette record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/cassettes/#{@cassette}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit cassette</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @cassette.title %></:item>
+  <:item title="Artist"><%= @cassette.artist %></:item>
+  <:item title="Released"><%= @cassette.released %></:item>
+</.list>
+
+<.back navigate={~p"/cassettes"}>Back to cassettes</.back>
+
+<.modal :if={@live_action == :edit} id="cassette-modal" show on_cancel={JS.patch(~p"/cassettes/#{@cassette}")}>
+  <.live_component
+    module={BookshelfWeb.CassetteLive.FormComponent}
+    id={@cassette.id}
+    title={@page_title}
+    action={@live_action}
+    cassette={@cassette}
+    patch={~p"/cassettes/#{@cassette}"}
+  />
+</.modal>
