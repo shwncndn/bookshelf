@@ -13,52 +13,48 @@ defmodule BookshelfWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
   scope "/", BookshelfWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live_session :home do
+      live "/", HomeLive
+    end
 
-    live "/books", BookLive.Index, :index
-    live "/books/new", BookLive.Index, :new
-    live "/books/:id/edit", BookLive.Index, :edit
+    live_session :navbar do
+      scope "/bookshelf" do
 
-    live "/books/:id", BookLive.Show, :show
-    live "/books/:id/show/edit", BookLive.Show, :edit
+        live "/books", BookLive.Index, :index
+        live "/books/new", BookLive.Index, :new
+        live "/books/:id/edit", BookLive.Index, :edit
+        live "/books/:id", BookLive.Show, :show
+        live "/books/:id/show/edit", BookLive.Show, :edit
 
+        live "/cassettes", CassetteLive.Index, :index
+        live "/cassettes/new", CassetteLive.Index, :new
+        live "/cassettes/:id/edit", CassetteLive.Index, :edit
+        live "/cassettes/:id", CassetteLive.Show, :show
+        live "/cassettes/:id/show/edit", CassetteLive.Show, :edit
 
-    live "/cassettes", CassetteLive.Index, :index
-    live "/cassettes/new", CassetteLive.Index, :new
-    live "/cassettes/:id/edit", CassetteLive.Index, :edit
+        live "/cds", CdLive.Index, :index
+        live "/cds/new", CdLive.Index, :new
+        live "/cds/:id/edit", CdLive.Index, :edit
+        live "/cds/:id", CdLive.Show, :show
+        live "/cds/:id/show/edit", CdLive.Show, :edit
 
-    live "/cassettes/:id", CassetteLive.Show, :show
-    live "/cassettes/:id/show/edit", CassetteLive.Show, :edit
+        live "/records", RecordLive.Index, :index
+        live "/records/new", RecordLive.Index, :new
+        live "/records/:id/edit", RecordLive.Index, :edit
+        live "/records/:id", RecordLive.Show, :show
+        live "/records/:id/show/edit", RecordLive.Show, :edit
 
-
-    live "/cds", CdLive.Index, :index
-    live "/cds/new", CdLive.Index, :new
-    live "/cds/:id/edit", CdLive.Index, :edit
-
-    live "/cds/:id", CdLive.Show, :show
-    live "/cds/:id/show/edit", CdLive.Show, :edit
-
-
-    live "/records", RecordLive.Index, :index
-    live "/records/new", RecordLive.Index, :new
-    live "/records/:id/edit", RecordLive.Index, :edit
-
-    live "/records/:id", RecordLive.Show, :show
-    live "/records/:id/show/edit", RecordLive.Show, :editi
-
-
-    live "/songbooks", SongbookLive.Index, :index
-    live "/songbooks/new", SongbookLive.Index, :new
-    live "/songbooks/:id/edit", SongbookLive.Index, :edit
-
-    live "/songbooks/:id", SongbookLive.Show, :show
-    live "/songbooks/:id/show/edit", SongbookLive.Show, :edit
+        live "/songbooks", SongbookLive.Index, :index
+        live "/songbooks/new", SongbookLive.Index, :new
+        live "/songbooks/:id/edit", SongbookLive.Index, :edit
+        live "/songbooks/:id", SongbookLive.Show, :show
+        live "/songbooks/:id/show/edit", SongbookLive.Show, :edit
+      end
+    end
   end
-
   # Other scopes may use custom stacks.
   # scope "/api", BookshelfWeb do
   #   pipe_through :api

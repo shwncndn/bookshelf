@@ -1,7 +1,7 @@
 <.header>
   Listing Cassettes
   <:actions>
-    <.link patch={~p"/cassettes/new"}>
+    <.link patch={~p"/bookshelf/cassettes/new"}>
       <.button>New Cassette</.button>
     </.link>
   </:actions>
@@ -10,16 +10,16 @@
 <.table
   id="cassettes"
   rows={@streams.cassettes}
-  row_click={fn {_id, cassette} -> JS.navigate(~p"/cassettes/#{cassette}") end}
+  row_click={fn {_id, cassette} -> JS.navigate(~p"/bookshelf/cassettes/#{cassette}") end}
 >
   <:col :let={{_id, cassette}} label="Title"><%= cassette.title %></:col>
   <:col :let={{_id, cassette}} label="Artist"><%= cassette.artist %></:col>
   <:col :let={{_id, cassette}} label="Released"><%= cassette.released %></:col>
   <:action :let={{_id, cassette}}>
     <div class="sr-only">
-      <.link navigate={~p"/cassettes/#{cassette}"}>Show</.link>
+      <.link navigate={~p"/bookshelf/cassettes/#{cassette}"}>Show</.link>
     </div>
-    <.link patch={~p"/cassettes/#{cassette}/edit"}>Edit</.link>
+    <.link patch={~p"/bookshelf/cassettes/#{cassette}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, cassette}}>
     <.link
@@ -38,6 +38,6 @@
     title={@page_title}
     action={@live_action}
     cassette={@cassette}
-    patch={~p"/cassettes"}
+    patch={~p"/bookshelf/cassettes"}
   />
 </.modal>

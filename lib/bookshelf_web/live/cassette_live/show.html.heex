@@ -14,7 +14,7 @@
   <:item title="Released"><%= @cassette.released %></:item>
 </.list>
 
-<.back navigate={~p"/cassettes"}>Back to cassettes</.back>
+<.back navigate={~p"/bookshelf/cassettes"}>Back to cassettes</.back>
 
 <.modal :if={@live_action == :edit} id="cassette-modal" show on_cancel={JS.patch(~p"/cassettes/#{@cassette}")}>
   <.live_component
@@ -23,6 +23,6 @@
     title={@page_title}
     action={@live_action}
     cassette={@cassette}
-    patch={~p"/cassettes/#{@cassette}"}
+    patch={~p"/bookshelf/cassettes/#{@cassette}"}
   />
 </.modal>

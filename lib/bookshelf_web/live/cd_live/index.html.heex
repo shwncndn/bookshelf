@@ -1,7 +1,7 @@
 <.header>
   Listing Cds
   <:actions>
-    <.link patch={~p"/cds/new"}>
+    <.link patch={~p"/bookshelf/cds/new"}>
       <.button>New Cd</.button>
     </.link>
   </:actions>
@@ -10,16 +10,16 @@
 <.table
   id="cds"
   rows={@streams.cds}
-  row_click={fn {_id, cd} -> JS.navigate(~p"/cds/#{cd}") end}
+  row_click={fn {_id, cd} -> JS.navigate(~p"/bookshelf/cds/#{cd}") end}
 >
   <:col :let={{_id, cd}} label="Title"><%= cd.title %></:col>
   <:col :let={{_id, cd}} label="Artist"><%= cd.artist %></:col>
   <:col :let={{_id, cd}} label="Published"><%= cd.published %></:col>
   <:action :let={{_id, cd}}>
     <div class="sr-only">
-      <.link navigate={~p"/cds/#{cd}"}>Show</.link>
+      <.link navigate={~p"/bookshelf/cds/#{cd}"}>Show</.link>
     </div>
-    <.link patch={~p"/cds/#{cd}/edit"}>Edit</.link>
+    <.link patch={~p"/bookshelf/cds/#{cd}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, cd}}>
     <.link
@@ -31,13 +31,13 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="cd-modal" show on_cancel={JS.patch(~p"/cds")}>
+<.modal :if={@live_action in [:new, :edit]} id="cd-modal" show on_cancel={JS.patch(~p"/bookshelf/cds")}>
   <.live_component
     module={BookshelfWeb.CdLive.FormComponent}
     id={@cd.id || :new}
     title={@page_title}
     action={@live_action}
     cd={@cd}
-    patch={~p"/cds"}
+    patch={~p"/bookshelf/cds"}
   />
 </.modal>

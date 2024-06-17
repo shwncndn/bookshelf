@@ -2,7 +2,7 @@
   Cd <%= @cd.id %>
   <:subtitle>This is a cd record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/cds/#{@cd}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/bookshelf/cds/#{@cd}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit cd</.button>
     </.link>
   </:actions>
@@ -14,15 +14,15 @@
   <:item title="Published"><%= @cd.published %></:item>
 </.list>
 
-<.back navigate={~p"/cds"}>Back to cds</.back>
+<.back navigate={~p"/bookshelf/cds"}>Back to cds</.back>
 
-<.modal :if={@live_action == :edit} id="cd-modal" show on_cancel={JS.patch(~p"/cds/#{@cd}")}>
+<.modal :if={@live_action == :edit} id="cd-modal" show on_cancel={JS.patch(~p"/bookshelf/cds/#{@cd}")}>
   <.live_component
     module={BookshelfWeb.CdLive.FormComponent}
     id={@cd.id}
     title={@page_title}
     action={@live_action}
     cd={@cd}
-    patch={~p"/cds/#{@cd}"}
+    patch={~p"/bookshelf/bookshelf/cds/#{@cd}"}
   />
 </.modal>
